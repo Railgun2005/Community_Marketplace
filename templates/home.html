@@ -1,0 +1,1031 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1 class="hero-title">Welcome to <span class="brand-highlight">MarketHub</span></h1>
+            <p class="hero-description">Connect, trade, and thrive in our vibrant community marketplace. Discover unique items, connect with local sellers, and build lasting relationships.</p>
+            <div class="hero-actions">
+                {% if user.is_authenticated %}
+                <button class="btn btn-secondary btn-large"><a href="{% url 'dashboard' %}" style="text-decoration:none;color:white;">Dashboard</a></button>
+                <button class="btn btn-secondary btn-large"><a href="{% url 'market' %}" style="text-decoration:none;color:white;">Market</a></button>
+                {% else %}
+                <button class="btn btn-secondary btn-large"><a href="{% url 'login' %}" style="text-decoration:none;color:white;">Login</a></button>
+                <button class="btn btn-secondary btn-large"><a href="{% url 'register' %}" style="text-decoration:none;color:white;">Register</a></button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number">{{ active_traders }}</span>
+                <span class="stat-label">Active Traders</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ active_orders }}</span>
+                <span class="stat-label">Active Orders</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">${{ current_turnover }}</span>
+                <span class="stat-label">Current Turnover</span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="features-section">
+    <div class="section-header">
+        <h2>Why Choose Our Marketplace</h2>
+        <p>Experience the future of community trading with our advanced features</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Secure Trading</h3>
+            <p>Advanced encryption and verification systems ensure every transaction is safe and protected.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <h3>Global Community</h3>
+            <p>Connect with traders from around the world and discover unique items from every corner of the globe.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Instant Matching</h3>
+            <p>Our intelligent system matches buyers and sellers in real-time for the fastest possible transactions.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Market Analytics</h3>
+            <p>Access detailed market insights and price trends to make informed trading decisions.</p>
+        </div>
+    </div>
+</section>
+<section class="activity-section">
+    <div class="section-header">
+        <h2>Recent Market Activity</h2>
+        <p>Stay updated with the latest trades and listings in our community</p>
+    </div>
+    <div class="activity-container">
+        <div class="activity-list">
+            <div class="activity-item">
+                <div class="activity-icon trade-icon"></div>
+                <div class="activity-content">
+                    <span class="activity-user">@TraderMike</span> completed a trade for <span class="activity-item-name">Vintage Camera</span>
+                    <span class="activity-time">2 minutes ago</span>
+                </div>
+                <div class="activity-value">$245</div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon listing-icon"></div>
+                <div class="activity-content">
+                    <span class="activity-user">@CraftyAnn</span> listed <span class="activity-item-name">Handmade Jewelry Set</span>
+                    <span class="activity-time">5 minutes ago</span>
+                </div>
+                <div class="activity-value">$89</div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon trade-icon"></div>
+                <div class="activity-content">
+                    <span class="activity-user">@TechGuru</span> completed a trade for <span class="activity-item-name">Gaming Headset</span>
+                    <span class="activity-time">8 minutes ago</span>
+                </div>
+                <div class="activity-value">$156</div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon listing-icon"></div>
+                <div class="activity-content">
+                    <span class="activity-user">@BookLover</span> listed <span class="activity-item-name">Rare First Edition</span>
+                    <span class="activity-time">12 minutes ago</span>
+                </div>
+                <div class="activity-value">$320</div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="categories-section">
+    <div class="section-header">
+        <h2>Popular Categories</h2>
+        <p>Explore our most active trading categories</p>
+    </div>
+    <div class="categories-grid">
+        <div class="category-card">
+            <div class="category-info">
+                <h3>Electronics</h3>
+                <span class="category-count">1,247 items</span>
+            </div>
+            <div class="category-trend">
+                <span class="trend-indicator positive">+12%</span>
+            </div>
+        </div>
+        <div class="category-card">
+            <div class="category-info">
+                <h3>Collectibles</h3>
+                <span class="category-count">892 items</span>
+            </div>
+            <div class="category-trend">
+                <span class="trend-indicator positive">+8%</span>
+            </div>
+        </div>
+        <div class="category-card">
+            <div class="category-info">
+                <h3>Art & Crafts</h3>
+                <span class="category-count">654 items</span>
+            </div>
+            <div class="category-trend">
+                <span class="trend-indicator positive">+15%</span>
+            </div>
+        </div>
+        <div class="category-card">
+            <div class="category-info">
+                <h3>Books</h3>
+                <span class="category-count">423 items</span>
+            </div>
+            <div class="category-trend">
+                <span class="trend-indicator neutral">0%</span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="community-section">
+    <div class="community-content">
+        <div class="community-text">
+            <h2>Join Our Growing Community</h2>
+            <p>Connect with like-minded traders, share experiences, and discover amazing deals. Our community is built on trust, transparency, and mutual success.</p>
+            <div class="community-features">
+                <div class="community-feature">
+                    <span class="feature-bullet">✓</span>
+                    <span>24/7 Community Support</span>
+                </div>
+                <div class="community-feature">
+                    <span class="feature-bullet">✓</span>
+                    <span>Verified Trader Profiles</span>
+                </div>
+                <div class="community-feature">
+                    <span class="feature-bullet">✓</span>
+                    <span>Real-time Chat System</span>
+                </div>
+            </div>
+            <button class="btn btn-primary">Join Community</button>
+        </div>
+        <div class="community-stats-visual">
+            <div class="stats-chart">
+                <div class="chart-bar" style="height: 60%"></div>
+                <div class="chart-bar" style="height: 80%"></div>
+                <div class="chart-bar" style="height: 45%"></div>
+                <div class="chart-bar" style="height: 90%"></div>
+                <div class="chart-bar" style="height: 70%"></div>
+            </div>
+            <p class="chart-label">Growing trading volume</p>
+        </div>
+    </div>
+</section>
+{% if request.user.is_authenticated and request.user.userprofile.theme %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.brand-highlight {
+    color: #4a90e2;
+    background: linear-gradient(45deg, #4a90e2, #5ba0f2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    color: #ccc;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.btn-large {
+    padding: 12px 32px;
+    font-size: 1rem;
+    border-radius: 6px;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid #4a90e2;
+    color: #4a90e2;
+}
+
+.btn-secondary:hover {
+    background: #4a90e2;
+    color: #fff;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 40px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4a90e2;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.features-section {
+    padding: 80px 20px;
+    background: #0a0a0a;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin: 0;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    border-color: #4a90e2;
+    transform: translateY(-5px);
+    background: #222;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    filter: grayscale(0%);
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    color: #fff;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: #ccc;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.activity-section {
+    padding: 80px 20px;
+    background: #1a1a1a;
+}
+
+.activity-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.activity-list {
+    background: #2d2d2d;
+    border: 1px solid #444;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #3a3a3a;
+    transition: background 0.2s ease;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-item:hover {
+    background: #3a3a3a;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.trade-icon {
+    background: linear-gradient(45deg, #4a90e2, #5ba0f2);
+}
+
+.listing-icon {
+    background: linear-gradient(45deg, #f39c12, #f4b942);
+}
+
+.activity-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-user {
+    color: #4a90e2;
+    font-weight: 600;
+}
+
+.activity-item-name {
+    color: #fff;
+    font-weight: 500;
+}
+
+.activity-time {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.activity-value {
+    color: #4a90e2;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.categories-section {
+    padding: 80px 20px;
+    background: #0a0a0a;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.category-card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    border-color: #4a90e2;
+    transform: translateY(-2px);
+}
+
+.category-info h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin: 0 0 8px 0;
+}
+
+.category-count {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.trend-indicator {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.trend-indicator.positive {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.trend-indicator.neutral {
+    background: rgba(156, 163, 175, 0.2);
+    color: #9ca3af;
+}
+
+.community-section {
+    padding: 80px 20px;
+    background: #1a1a1a;
+}
+
+.community-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 60px;
+    align-items: center;
+}
+
+.community-text h2 {
+    font-size: 2.2rem;
+    color: #fff;
+    margin: 0 0 20px 0;
+    font-weight: 600;
+}
+
+.community-text p {
+    color: #ccc;
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+    font-size: 1.1rem;
+}
+
+.community-features {
+    margin: 30px 0;
+}
+
+.community-feature {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    color: #ccc;
+}
+
+.feature-bullet {
+    color: #4a90e2;
+    margin-right: 12px;
+    font-weight: 600;
+}
+
+.community-stats-visual {
+    text-align: center;
+}
+
+.stats-chart {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 12px;
+    height: 120px;
+    margin-bottom: 16px;
+}
+
+.chart-bar {
+    width: 24px;
+    background: linear-gradient(to top, #4a90e2, #5ba0f2);
+    border-radius: 2px 2px 0 0;
+    animation: growBar 1.5s ease-out;
+}
+
+.chart-label {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+@keyframes growBar {
+    from { height: 0; }
+    to { height: var(--final-height); }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .community-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .activity-item {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .activity-value {
+        margin-top: 8px;
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 40px 15px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .features-section,
+    .activity-section,
+    .categories-section,
+    .community-section {
+        padding: 60px 15px;
+    }
+}
+</style>
+{% else %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.brand-highlight {
+    color: #2563eb;
+    background: linear-gradient(45deg, #2563eb, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.btn-large {
+    padding: 12px 32px;
+    font-size: 1rem;
+    border-radius: 6px;
+}
+
+.btn-secondary {
+    background: #2563eb;
+    border: 2px solid #2563eb;
+    color: #fff;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 40px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.features-section {
+    padding: 80px 20px;
+    background: #ffffff;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: #1e293b;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    border-color: #2563eb;
+    transform: translateY(-5px);
+    background: #f1f5f9;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    filter: grayscale(0%);
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    color: #1e293b;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.activity-section {
+    padding: 80px 20px;
+    background: #f8fafc;
+}
+
+.activity-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.activity-list {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.2s ease;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-item:hover {
+    background: #f8fafc;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.trade-icon {
+    background: linear-gradient(45deg, #2563eb, #3b82f6);
+}
+
+.listing-icon {
+    background: linear-gradient(45deg, #d97706, #eab308);
+}
+
+.activity-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-user {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.activity-item-name {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.activity-time {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.activity-value {
+    color: #2563eb;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.categories-section {
+    padding: 80px 20px;
+    background: #ffffff;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.category-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    border-color: #2563eb;
+    transform: translateY(-2px);
+}
+
+.category-info h3 {
+    font-size: 1.3rem;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+}
+
+.category-count {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.trend-indicator {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.trend-indicator.positive {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+}
+
+.trend-indicator.neutral {
+    background: rgba(156, 163, 175, 0.1);
+    color: #9ca3af;
+}
+
+.community-section {
+    padding: 80px 20px;
+    background: #f8fafc;
+}
+
+.community-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 60px;
+    align-items: center;
+}
+
+.community-text h2 {
+    font-size: 2.2rem;
+    color: #1e293b;
+    margin: 0 0 20px 0;
+    font-weight: 600;
+}
+
+.community-text p {
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+    font-size: 1.1rem;
+}
+
+.community-features {
+    margin: 30px 0;
+}
+
+.community-feature {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    color: #64748b;
+}
+
+.feature-bullet {
+    color: #2563eb;
+    margin-right: 12px;
+    font-weight: 600;
+}
+
+.community-stats-visual {
+    text-align: center;
+}
+
+.stats-chart {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 12px;
+    height: 120px;
+    margin-bottom: 16px;
+}
+
+.chart-bar {
+    width: 24px;
+    background: linear-gradient(to top, #2563eb, #3b82f6);
+    border-radius: 2px 2px 0 0;
+    animation: growBar 1.5s ease-out;
+}
+
+.chart-label {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+@keyframes growBar {
+    from { height: 0; }
+    to { height: var(--final-height); }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .community-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .activity-item {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .activity-value {
+        margin-top: 8px;
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 40px 15px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .features-section,
+    .activity-section,
+    .categories-section,
+    .community-section {
+        padding: 60px 15px;
+    }
+}
+</style>
+{% endif %}
+{% endblock %}

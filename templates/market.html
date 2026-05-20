@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="market-container">
+    <div class="market-header">
+        <nav class="breadcrumb">
+            <span>Browse</span>
+            {% if selected_category %}
+            <span class="separator">></span>
+            <span>{{ selected_category.name }}</span>
+            {% endif %}
+            {% if selected_item %}
+            <span class="separator">></span>
+            <span class="active">{{ selected_item.name }}</span>
+            {% endif %}
+        </nav>
+    </div>
+    <div class="market-content">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Categories</h2>
+                <button class="sidebar-toggle-btn" id="sidebarToggle" title="Collapse Sidebar">
+                    <span class="toggle-icon">≪</span>
+                </button>
+            </div>
+            <ul class="category-list">
+                {% for category in categories %}
+                <li class="category-item">
+                    <a href="{% url 'market' %}?category_id={{ category.id }}"
+                        class="{% if selected_category_id == category.id %}active{% endif %}">
+                        {{ category.name }}
+                    </a>
+                    {% if selected_category_id == category.id and items %}
+                    <ul class="item-list">
+                        {% for item in items %}
+                        <li class="item">
+                            <a href="{% url 'market' %}?category_id={{ category.id }}&item_id={{ item.id }}"
+                                class="{% if selected_item.id == item.id %}active{% endif %}">
+                                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="item-icon">
+                                {{ item.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="sidebar-collapsed-indicator" id="sidebarIndicator" style="display: none;">
+            <button class="sidebar-expand-btn" id="sidebarExpand" title="Expand Sidebar">
+                <span class="expand-icon">≫</span>
+            </button>
+        </div>
+        <div class="main-content" id="mainContent">
+            {% if selected_item %}
+            <div class="item-header">
+                <div class="item-title">
+                    <img src="{{ selected_item.image.url }}" alt="{{ selected_item.name }}" class="item-large-icon">
+                    <h1>{{ selected_item.name }}</h1>
+                </div>
+                <div class="item-actions">
+                    <a href="{% url 'create_order' %}?category_id={{ selected_category_id }}&item_id={{ selected_item.id }}"
+                        class="btn btn-primary">Create New Order</a>
+                </div>
+            </div>
+            <div class="tab-content" id="market-data">
+                <div class="market-tables">
+                    <div class="market-section">
+                        <h3>Sellers</h3>
+                        {% if sell_orders %}
+                        <table class="market-table" id="sellersTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable(0,'sellersTable')" class="sortable">
+                                        Quantity
+                                        <span class="sort-indicator">↕</span>
+                                    </th>
+                                    <th onclick="sortTable(1,'sellersTable')" class="sortable">
+                                        Price
+                                        <span class="sort-indicator">↕</span>
+                                    </th>
+                                    <th onclick="sortTable(2,'sellersTable')" class="sortable">
+                                        Location
+                                        <span class="sort-indicator">↕</span>
+                                    </th>
+                                    <th onclick="sortTable(3,'sellersTable')" class="sortable">
+                                        Date
+                                        <span class="sort-indicator">↕</span>
+                                    </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in sell_orders %}
+                                <tr class="{% if order.user == request.user %}user-order{% endif %}">
+                                    <td class="quantity">{{ order.quantity|floatformat:0 }}</td>
+                                    <td class="price">{{ order.price|floatformat:2 }}</td>
+                                    <td class="location">
+                                        <span class="location-name">{{ order.location }}</span>
+                                    </td>
+                                    <td class="date">
+                                        <span class="location-name">{{ order.date }}</span>
+                                    </td>
+                                    <td class="actions">
+                                        <button class="btn-contact" data-phone="{{ order.phone }}">Contact</button>
+                                        {% if order.user == request.user %}
+                                        <a href="{% url 'update_order' order.id %}?category_id={{ selected_category_id }}&item_id={{ selected_item.id }}"
+                                            class="btn-edit">Edit</a>
+                                        <a href="{% url 'delete_order' order.id %}?category_id={{ selected_category_id }}&item_id={{ selected_item.id }}"
+                                            class="btn-delete">Delete</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p class="no-data">No sell orders available</p>
+                        {% endif %}
+                    </div>
+                    <div class="market-section">
+                        <h3>Buyers</h3>
+                        {% if buy_orders %}
+                        <table class="market-table" id="buyersTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable(0,'buyersTable')" class="sortable">
+                                        Quantity
+                                        <span class="sort-indicator">↕</span>
+                                    </th>
+                                    <th onclick="sortTable(1,'buyersTable')" class="sortable">
+                                        Price
+                                        <span class="sort-indicator">↕</span>
+                                    </th>
+                                    <th onclick="sortTable(2,'buyersTable')" class="sortable">
+                                        Location
+                                        <span class="sort-indicator">↕</span>
+                                    </th>
+                                    <th onclick="sortTable(3,'buyersTable')" class="sortable">
+                                        Date
+                                        <span class="sort-indicator">↕</span>
+                                    </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in buy_orders %}
+                                <tr class="{% if order.user == request.user %}user-order{% endif %}">
+                                    <td class="quantity">{{ order.quantity|floatformat:0 }}</td>
+                                    <td class="price">{{ order.price|floatformat:2 }}</td>
+                                    <td class="location">
+                                        <span class="location-name">{{ order.location }}</span>
+                                    </td>
+                                    <td class="date">
+                                        <span class="location-name">{{ order.date }}</span>
+                                    </td>
+                                    <td class="actions">
+                                        <button class="btn-contact" data-phone="{{ order.phone }}">Contact</button>
+                                        {% if order.user == request.user %}
+                                        <a href="{% url 'update_order' order.id %}?category_id={{ selected_category_id }}&item_id={{ selected_item.id }}"
+                                            class="btn-edit">Edit</a>
+                                        <a href="{% url 'delete_order' order.id %}?category_id={{ selected_category_id }}&item_id={{ selected_item.id }}"
+                                            class="btn-delete">Delete</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p class="no-data">No buy orders available</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> 
+            {% else %}
+            <div class="placeholder">
+                <h2>Community Marketplace</h2>
+                <p>Select an item from the categories on the left to view market data</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div id="toast" class="toast">
+    <span id="toastMessage">Phone number copied to clipboard!</span>
+</div>
+{% endblock %}

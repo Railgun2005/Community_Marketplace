@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+db.sqlite3
+*.py[cod]
+market/
+venv/
+media/
+*.log
+.DS_Store
+Thumbs.db

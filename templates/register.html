@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="register-form-container">
+    <h1>Register</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="id_username">Username:</label>
+            <input type="text" name="username" id="id_username" required>
+            {% if form.username.errors %}
+            <div>{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_email">Email:</label>
+            <input type="email" name="email" id="id_email" required>
+            {% if form.email.errors %}
+            <div>{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_first_name">First Name:</label>
+            <input type="text" name="first_name" id="id_first_name" required>
+            {% if form.first_name.errors %}
+            <div>{{ form.first_name.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_last_name">Last Name:</label>
+            <input type="text" name="last_name" id="id_last_name" required>
+            {% if form.last_name.errors %}
+            <div>{{ form.last_name.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_password1">Password:</label>
+            <input type="password" name="password1" id="id_password1" required>
+            {% if form.password1.errors %}
+            <div>{{ form.password1.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_password2">Confirm Password:</label>
+            <input type="password" name="password2" id="id_password2" required>
+            {% if form.password2.errors %}
+            <div>{{ form.password2.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_phone">Phone:</label>
+            <input type="text" name="phone" id="id_phone" required>
+            {% if form.phone.errors %}
+            <div>{{ form.phone.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_address">Address:</label>
+            <textarea name="address" id="id_address" required></textarea>
+            {% if form.address.errors %}
+            <div>{{ form.address.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_pan_number">PAN Number:</label>
+            <input type="text" name="pan_number" id="id_pan_number" required>
+            {% if form.pan_number.errors %}
+            <div>{{ form.pan_number.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_gst_number">GST Number:</label>
+            <input type="text" name="gst_number" id="id_gst_number" required>
+            {% if form.gst_number.errors %}
+            <div>{{ form.gst_number.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label>Theme:</label>
+            <label>
+                <input type="radio" name="theme" value="False" required>
+                Light
+            </label>
+            <label>
+                <input type="radio" name="theme" value="True">
+                Dark
+            </label>
+            {% if form.theme.errors %}
+            <div>{{ form.theme.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_pfp">Profile Picture:</label>
+            <input type="file" name="pfp" id="id_pfp" required>
+            {% if form.pfp.errors %}
+            <div>{{ form.pfp.errors }}</div>
+            {% endif %}
+        </div>
+        <input type="submit" value="Register">
+    </form>
+</div>
+{% if request.user.is_authenticated and request.user.userprofile.theme %}
+<style>
+    .register-form-container {
+        background-color: #121212;
+        color: #e0e0e0;
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .register-form-container h1 {
+        color: #ffffff;
+        margin-bottom: 1em;
+        text-align: center;
+    }
+
+    .register-form-container form>div {
+        margin-bottom: 20px;
+    }
+
+    .register-form-container label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #bbbbbb;
+    }
+
+    .register-form-container input[type="text"],
+    .register-form-container input[type="email"],
+    .register-form-container input[type="password"],
+    .register-form-container input[type="file"],
+    .register-form-container textarea {
+        width: 100%;
+        padding: 10px;
+        background-color: #1e1e1e;
+        border: 1px solid #444;
+        border-radius: 5px;
+        color: #e0e0e0;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+    }
+
+    .register-form-container input[type="text"]:focus,
+    .register-form-container input[type="email"]:focus,
+    .register-form-container input[type="password"]:focus,
+    .register-form-container input[type="file"]:focus,
+    .register-form-container textarea:focus {
+        border-color: #2979ff;
+        outline: none;
+    }
+
+    .register-form-container div>div {
+        color: #ff5555;
+        margin-top: 4px;
+        font-size: 0.9em;
+    }
+
+    .register-form-container input[type="submit"] {
+        width: 100%;
+        background-color: #2979ff;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        font-size: 1.1em;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .register-form-container input[type="submit"]:hover {
+        background-color: #5393ff;
+    }
+</style>
+{% else %}
+<style>
+    .register-form-container {
+        background-color: #ffffff;
+        color: #111827;
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 12px rgba(15, 23, 42, 0.08);
+    }
+
+    .register-form-container h1 {
+        color: #111827;
+        margin-bottom: 1em;
+        text-align: center;
+    }
+
+    .register-form-container form>div {
+        margin-bottom: 20px;
+    }
+
+    .register-form-container label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #4b5563;
+    }
+
+    .register-form-container input[type="text"],
+    .register-form-container input[type="email"],
+    .register-form-container input[type="password"],
+    .register-form-container input[type="file"],
+    .register-form-container textarea {
+        width: 100%;
+        padding: 10px;
+        background-color: #f9fafb;
+        border: 1px solid #d1d5db;
+        border-radius: 5px;
+        color: #111827;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+    }
+
+    .register-form-container input[type="text"]:focus,
+    .register-form-container input[type="email"]:focus,
+    .register-form-container input[type="password"]:focus,
+    .register-form-container input[type="file"]:focus,
+    .register-form-container textarea:focus {
+        border-color: #2979ff;
+        outline: none;
+    }
+
+    .register-form-container div>div {
+        color: #dc2626;
+        margin-top: 4px;
+        font-size: 0.9em;
+    }
+
+    .register-form-container input[type="submit"] {
+        width: 100%;
+        background-color: #2979ff;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        font-size: 1.1em;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .register-form-container input[type="submit"]:hover {
+        background-color: #5393ff;
+    }
+</style>
+{% endif %}
+
+{% endblock %}

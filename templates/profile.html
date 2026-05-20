@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="profile-container">
+    <h1>Profile</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <img src="{{ user_profile.pfp.url }}" height="100px" width="100px" />
+        <h2>User Information</h2>
+        <div>
+            <label for="id_username">Username:</label>
+            <input type="text" name="username" id="id_username" value="{{ user.username }}">
+            {% if u_form.username.errors %}
+            <div>{{ u_form.username.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_email">Email:</label>
+            <input type="email" name="email" id="id_email" value="{{ user.email }}">
+            {% if u_form.email.errors %}
+            <div>{{ u_form.email.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_first_name">First Name:</label>
+            <input type="text" name="first_name" id="id_first_name" value="{{ user.first_name }}">
+            {% if u_form.first_name.errors %}
+            <div>{{ u_form.first_name.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_last_name">Last Name:</label>
+            <input type="text" name="last_name" id="id_last_name" value="{{ user.last_name }}">
+            {% if u_form.last_name.errors %}
+            <div>{{ u_form.last_name.errors }}</div>
+            {% endif %}
+        </div>
+        <h2>Profile Information</h2>
+        <div>
+            <label for="id_phone">Phone:</label>
+            <input type="text" name="phone" id="id_phone" value="{{ user_profile.phone }}">
+            {% if p_form.phone.errors %}
+            <div>{{ p_form.phone.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_address">Address:</label>
+            <textarea name="address" id="id_address">{{ user_profile.address }}</textarea>
+            {% if p_form.address.errors %}
+            <div>{{ p_form.address.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_pan_number">PAN Number:</label>
+            <input type="text" name="pan_number" id="id_pan_number" value="{{ user_profile.pan_number }}">
+            {% if p_form.pan_number.errors %}
+            <div>{{ p_form.pan_number.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_gst_number">GST Number:</label>
+            <input type="text" name="gst_number" id="id_gst_number" value="{{ user_profile.gst_number }}">
+            {% if p_form.gst_number.errors %}
+            <div>{{ p_form.gst_number.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label>Theme:</label>
+            <label>
+                <input type="radio" name="theme" value="False" {% if not user_profile.theme %}checked{% endif %}>
+                Light
+            </label>
+            <label>
+                <input type="radio" name="theme" value="True" {% if user_profile.theme %}checked{% endif %}>
+                Dark
+            </label>
+            {% if p_form.theme.errors %}
+            <div>{{ p_form.theme.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label for="id_pfp">Profile Picture:</label>
+            <input type="file" name="pfp" id="id_pfp">
+            {% if user_profile.pfp %}
+            <div>Current: <a href="{{ user_profile.pfp.url }}">{{ user_profile.pfp.name }}</a></div>
+            {% endif %}
+            {% if p_form.pfp.errors %}
+            <div>{{ p_form.pfp.errors }}</div>
+            {% endif %}
+        </div>
+        <input type="submit" value="Update">
+    </form>
+</div>
+{% if request.user.is_authenticated and request.user.userprofile.theme %}
+<style>
+    .profile-container {
+        background-color: #121212;
+        color: #e0e0e0;
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .profile-container h1,
+    .profile-container h2 {
+        color: #ffffff;
+        margin-bottom: 1em;
+    }
+
+    .profile-container form>div {
+        margin-bottom: 20px;
+    }
+
+    .profile-container label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #bbbbbb;
+    }
+
+    .profile-container input[type="text"],
+    .profile-container input[type="email"],
+    .profile-container input[type="file"],
+    .profile-container textarea {
+        width: 100%;
+        background-color: #1e1e1e;
+        border: 1px solid #444;
+        border-radius: 5px;
+        color: #e0e0e0;
+        padding: 10px;
+        font-size: 1em;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+    }
+
+    .profile-container input[type="text"]:focus,
+    .profile-container input[type="email"]:focus,
+    .profile-container input[type="file"]:focus,
+    .profile-container textarea:focus {
+        border-color: #2979ff;
+        outline: none;
+    }
+
+    .profile-container div>div {
+        color: #ff5555;
+        margin-top: 4px;
+        font-size: 0.9em;
+    }
+
+    .profile-container img {
+        border-radius: 50%;
+        margin-bottom: 15px;
+        border: 2px solid #2979ff;
+    }
+
+    .profile-container input[type="submit"] {
+        background-color: #2979ff;
+        color: #fff;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1em;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .profile-container input[type="submit"]:hover {
+        background-color: #5393ff;
+    }
+
+    .profile-container a {
+        color: #80c1ff;
+        text-decoration: none;
+    }
+
+    .profile-container a:hover {
+        color: #cce4ff;
+    }
+</style>
+{% else %}
+<style>
+    .profile-container {
+        background-color: #ffffff;
+        color: #111827;
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 12px rgba(15, 23, 42, 0.08);
+    }
+
+    .profile-container h1,
+    .profile-container h2 {
+        color: #111827;
+        margin-bottom: 1em;
+    }
+
+    .profile-container form>div {
+        margin-bottom: 20px;
+    }
+
+    .profile-container label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #4b5563;
+    }
+
+    .profile-container input[type="text"],
+    .profile-container input[type="email"],
+    .profile-container input[type="file"],
+    .profile-container textarea {
+        width: 100%;
+        background-color: #f9fafb;
+        border: 1px solid #d1d5db;
+        border-radius: 5px;
+        color: #111827;
+        padding: 10px;
+        font-size: 1em;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+    }
+
+    .profile-container input[type="text"]:focus,
+    .profile-container input[type="email"]:focus,
+    .profile-container input[type="file"]:focus,
+    .profile-container textarea:focus {
+        border-color: #2979ff;
+        outline: none;
+    }
+
+    .profile-container div>div {
+        color: #dc2626;
+        margin-top: 4px;
+        font-size: 0.9em;
+    }
+
+    .profile-container img {
+        border-radius: 50%;
+        margin-bottom: 15px;
+        border: 2px solid #2979ff;
+    }
+
+    .profile-container input[type="submit"] {
+        background-color: #2979ff;
+        color: #fff;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1em;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .profile-container input[type="submit"]:hover {
+        background-color: #5393ff;
+    }
+
+    .profile-container a {
+        color: #2563eb;
+        text-decoration: none;
+    }
+
+    .profile-container a:hover {
+        color: #1d4ed8;
+    }
+</style>
+{% endif %}
+
+{% endblock %}

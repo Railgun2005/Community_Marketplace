@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Marketplace</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    {% if request.user.is_authenticated and request.user.userprofile.theme %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    {% else %}
+    <link href="{% static 'css/style2.css' %}" rel="stylesheet" />
+    {% endif %}
+    <script src="{% static 'js/script.js' %}"></script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+    <script>
+        (function () {
+            const AUTO_DISMISS_DELAY = 5000;
+            const EXIT_ANIMATION_TIME = 300;
+            document.querySelectorAll('.message').forEach((msg, index) => {
+                msg.addEventListener('click', () => {
+                    msg.remove();
+                });
+                const delay = AUTO_DISMISS_DELAY + index * 200;
+                setTimeout(() => {
+                    msg.style.opacity = '0';
+                    msg.style.transform = 'translateX(20px)';
+                    setTimeout(() => {
+                        msg.remove();
+                    }, EXIT_ANIMATION_TIME);
+                }, delay);
+            });
+        })();
+    </script>
+    <style>
+        .messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .message.success {
+            background: #2ecc71;
+        }
+
+        .message.error {
+            background: #e74c3c;
+        }
+
+        .message.warning {
+            background: #f39c12;
+        }
+
+        .message.info {
+            background: #3498db;
+        }
+    </style>
+</body>
+</html>

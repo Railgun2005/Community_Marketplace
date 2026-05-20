@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Login</h1>
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Enter Your Username" />
+    <input type="password" name="password" placeholder="Enter Your password" />
+    <input type="submit" value="login" />
+</form>
+{% if request.user.is_authenticated and request.user.userprofile.theme %}
+<style>
+    body {
+    background: #181a20;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #1dc7ed;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+form {
+    background: #22232d;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.5);
+    max-width: 340px;
+    margin: 2rem auto;
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+input[type="text"], input[type="password"] {
+    background: #282a36;
+    color: #1dc7ed;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #1dc7ed;
+    outline: none;
+}
+
+input[type="submit"] {
+    background: linear-gradient(90deg, #1dc7ed 0%, #ff79c6 100%);
+    color: #181a20;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255,184,108,0.12);
+    transition: background 0.2s;
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(90deg, #ff79c6 0%, #1dc7ed 100%);
+}
+</style>
+{% else %}
+<style>
+    body {
+    background: #f3f4f6;
+    color: #111827;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #0ea5e9;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+form {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px 0 rgba(15,23,42,0.15);
+    max-width: 340px;
+    margin: 2rem auto;
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+input[type="text"], input[type="password"] {
+    background: #f9fafb;
+    color: #0ea5e9;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #0ea5e9;
+    outline: none;
+}
+
+input[type="submit"] {
+    background: linear-gradient(90deg, #0ea5e9 0%, #ec4899 100%);
+    color: #f9fafb;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(15,23,42,0.15);
+    transition: background 0.2s;
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(90deg, #ec4899 0%, #0ea5e9 100%);
+}
+</style>
+{% endif %}
+{% endblock %}

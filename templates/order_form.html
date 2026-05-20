@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="order-form-container">
+    <h1>{{ title }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% if category_id %}
+        <input type="hidden" name="category_id" value="{{ request.GET.category_id }}">
+        <input type="hidden" name="item_id" value="{{ request.GET.item_id }}">
+        {% endif %}
+        {% if item_id %}
+        <input type="hidden" name="item_id" value="{{ item_id }}">
+        {% endif %}
+        <div>
+            <div>
+                {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small>{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% if field.name == 'order_type' %}
+            </div>
+            <div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit">Save Order</button>
+        <a href="{% if request.GET.category_id and request.GET.item_id %}
+        {% url 'market' %}?category_id={{ request.GET.category_id }}&item_id={{ request.GET.item_id }}
+        {% else %}
+        {% url 'dashboard' %}
+        {% endif %}"
+        >Cancel</a>
+    </form>
+</div>
+{% if request.user.is_authenticated and request.user.userprofile.theme %}
+<style>
+.order-form-container {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    max-width: 600px;
+    margin: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.order-form-container h1 {
+    color: #ffffff;
+    margin-bottom: 1.5em;
+}
+
+.order-form-container form > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.order-form-container form > div > div {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-form-container label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #bbbbbb;
+}
+
+.order-form-container input[type="text"],
+.order-form-container input[type="number"],
+.order-form-container select,
+.order-form-container textarea {
+    background-color: #1e1e1e;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #e0e0e0;
+    padding: 10px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.order-form-container input[type="text"]:focus,
+.order-form-container input[type="number"]:focus,
+.order-form-container select:focus,
+.order-form-container textarea:focus {
+    border-color: #2979ff;
+    outline: none;
+}
+
+.order-form-container small {
+    color: #777;
+    margin-top: 4px;
+}
+
+.order-form-container div > div > div > div {
+    color: #ff5555;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.order-form-container button {
+    background-color: #2979ff;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.order-form-container button:hover {
+    background-color: #5393ff;
+}
+
+.order-form-container a {
+    color: #80c1ff;
+    text-decoration: none;
+    font-size: 1em;
+    margin-left: 15px;
+    line-height: 44px;
+    transition: color 0.3s ease;
+}
+
+.order-form-container a:hover {
+    color: #cce4ff;
+}
+
+.order-form-container input[type="hidden"] {
+    display: none;
+}
+</style>
+{% else %}
+<style>
+.order-form-container {
+    background-color: #ffffff;
+    color: #111827;
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    max-width: 600px;
+    margin: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(15, 23, 42, 0.08);
+}
+
+.order-form-container h1 {
+    color: #111827;
+    margin-bottom: 1.5em;
+}
+
+.order-form-container form > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.order-form-container form > div > div {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-form-container label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.order-form-container input[type="text"],
+.order-form-container input[type="number"],
+.order-form-container select,
+.order-form-container textarea {
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    color: #111827;
+    padding: 10px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.order-form-container input[type="text"]:focus,
+.order-form-container input[type="number"]:focus,
+.order-form-container select:focus,
+.order-form-container textarea:focus {
+    border-color: #2979ff;
+    outline: none;
+}
+
+.order-form-container small {
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+.order-form-container div > div > div > div {
+    color: #dc2626;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.order-form-container button {
+    background-color: #2979ff;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.order-form-container button:hover {
+    background-color: #5393ff;
+}
+
+.order-form-container a {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 1em;
+    margin-left: 15px;
+    line-height: 44px;
+    transition: color 0.3s ease;
+}
+
+.order-form-container a:hover {
+    color: #1d4ed8;
+}
+
+.order-form-container input[type="hidden"] {
+    display: none;
+}
+</style>
+{% endif %}
+{% endblock %}
